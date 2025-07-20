@@ -1,4 +1,10 @@
-export function Layout() {
+import type { Child } from 'hono/jsx';
+
+interface LayoutProps {
+  children?: Child;
+}
+
+export function Layout({ children }: LayoutProps = {}) {
   return (
     <html lang="ja">
       <head>
@@ -8,8 +14,10 @@ export function Layout() {
         <link href="/index.css" rel="stylesheet" />
       </head>
 
-      <body>
-        <div class="w-[375px] mx-auto">TODO: (学生向け) ベースアプリケーションのスコープを実装する</div>
+      <body class="bg-gray-50 text-gray-900 min-h-screen">
+        <div class="w-[375px] mx-auto bg-white min-h-screen shadow-sm">
+          {children || <div class="p-4">TODO: (学生向け) ベースアプリケーションのスコープを実装する</div>}
+        </div>
       </body>
     </html>
   );
