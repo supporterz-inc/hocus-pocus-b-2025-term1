@@ -11,6 +11,7 @@ import { DetailPage } from './ux-domain/pages/DetailPage.js';
 import { EditPage } from './ux-domain/pages/EditPage.js';
 import { ListPage } from './ux-domain/pages/ListPage.js';
 import { NewPage } from './ux-domain/pages/NewPage.js';
+import { LoginPage } from './ux-domain/pages/LoginPage.js';
 
 const app = new Hono();
 // biome-ignore lint/complexity/useLiteralKeys: tsc の挙動と一貫性を保つため
@@ -31,6 +32,29 @@ app.use('*', async (ctx, next) => {
   }
 
   await next();
+});
+
+app.get('/login',async(c) => {
+  return c.html(<LoginPage />);
+});
+app.post('/login',async(c)=>{
+  const { mailAddress, password, action} = await c.req.parseBody();
+  console.log(action)
+  //console.log(mailAddress);
+  //console.log(password);
+  if (!mailAddress) {
+    throw new HTTPException(400, { message: 'Content is required' });
+  }
+  if (!password) {
+    throw new HTTPException(400, { message: 'title is required' });
+  }
+  
+  /*if(action === 'login'){
+
+  }else{
+
+  }*/
+  return c.redirect('/')
 });
 
 // ナレッジ一覧

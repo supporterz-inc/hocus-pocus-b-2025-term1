@@ -6,6 +6,7 @@ import type { KnowledgeRepository } from './knowledge.repository.js';
 
 const STORAGE_DIR = 'data-source';
 const KNOWLEDGE_FILE = join(STORAGE_DIR, 'knowledge.json');
+//const USER_FILE = join(STORAGE_DIR,'uesrs.json');
 
 export const FileBasedKnowledgeRepository: KnowledgeRepository = {
   // @ts-ignore TODO: (学生向け) 実装する
@@ -46,6 +47,11 @@ export const FileBasedKnowledgeRepository: KnowledgeRepository = {
     }
     await writeKnowledgeList(filteredList);
   },
+
+  /*getByMail: async (mailAddress) =>{
+    const userList = await readList(USER_FILE);
+    const targetUser = userList.find((k) => k.mailAddress)
+  }*/
 };
 
 async function readKnowledgeList(): Promise<Knowledge[]> {
@@ -82,3 +88,23 @@ async function writeKnowledgeList(knowledgeList: Knowledge[]): Promise<void> {
     throw error;
   }
 }
+
+/*async function readList(filePath): Promise<Knowledge[]> {
+  try {
+    // ストレージディレクトリが存在しない場合は作成
+    if (!existsSync(STORAGE_DIR)) {
+      await mkdir(STORAGE_DIR, { recursive: true });
+    }
+
+    // ファイルが存在しない場合は空の配列を返す
+    if (!existsSync(filePath)) {
+      return [];
+    }
+
+    const data = await readFile(filePath, 'utf-8');
+    return JSON.parse(data) as Knowledge[];
+  } catch (error) {
+    console.error('Error reading ${target} list:', error);
+    return [];
+  }
+}*/
