@@ -94,11 +94,15 @@ app.post("/knowledge/:id/edit", async (c) => {
     throw new HTTPException(400, { message: "Content is required" });
   }
 
-  const knowledge = Knowledge.create(
-    content.toString(),
-    "text-auther"
+  const knowledge = await FileBasedKnowledgeRepository.getById(id);
+  if (!knowledge) {
+    return c.notFound();
+  }
+  const updateknowledge = Knowledge.update(
+    knowledge,
+    content.toString()
   );
-  await FileBasedKnowledgeRepository.upsert(knowledge);
+  await FileBasedKnowledgeRepository.upsert(updateknowledge);
   return c.redirect(`/knowledge/${id}`);
 });
 
