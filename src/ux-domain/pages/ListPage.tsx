@@ -6,6 +6,7 @@ import { Layout } from "../Layout.js";
 type Knowledge = {
   id: string;
   content: string;
+  title: string;
 };
 
 export const ListPage: FC<{ knowledgeList: Knowledge[] }> = ({
@@ -22,7 +23,7 @@ export const ListPage: FC<{ knowledgeList: Knowledge[] }> = ({
           {knowledgeList.map((knowledge) => (
             <li key={knowledge.id} class="border p-2 rounded">
               <a href={`/knowledge/${knowledge.id}`} class="text-blue-700 hover:underline">
-                {knowledge.content.substring(0, 50)}...
+                {knowledge.title.substring(0, 50)}...
               </a>
             </li>
           ))}

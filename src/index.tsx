@@ -50,14 +50,19 @@ app.get("/new", (c) => {
 // 新規投稿処理
 app.post("/new", async (c) => {
   const { content } = await c.req.parseBody();
+  const { title } = await c.req.parseBody();
 
   if (!content) {
     throw new HTTPException(400, { message: "Content is required" });
   }
+  if (!title) {
+    throw new HTTPException(400, { message: "title is required" });
+  }
 
   const newKnowledge = Knowledge.create(
+    title.toString(),
     content.toString(),
-    //authorやろうか？
+    //authorどうやろうか？
     "test-author"
   );
   
