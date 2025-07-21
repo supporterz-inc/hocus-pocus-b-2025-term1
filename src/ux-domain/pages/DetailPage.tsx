@@ -1,6 +1,7 @@
 
 import type { FC } from "hono/jsx";
 import { Layout } from "../Layout.js";
+import { marked } from "marked";
 
 // TODO: (学生向け) 適切な型定義に変更する
 type Knowledge = {
@@ -8,14 +9,19 @@ type Knowledge = {
   content: string;
 };
 
-export const DetailPage: FC<{ knowledge: Knowledge }> = ({ knowledge }) => {
+export const DetailPage: FC<{ knowledge: Knowledge }> = async ({ knowledge }) =>{
+
+  const html = await marked(knowledge.content);
+  
   return (
     <Layout>
       <div class="p-4">
         
-        <div class="prose lg:prose-xl max-w-none mb-4">
-          {/* TODO: MarkdownをHTMLに変換して表示する */}
-          <p>{knowledge.content}</p>
+        <div className="prose lg:prose-xl max-w-none mb-4">
+          {/* MarkdownをHTMLに変換して表示 */}
+          <div 
+          className="prose lg:prose-xl max-w-none mb-4 bg-gray-100 p-4 rounded border"
+          dangerouslySetInnerHTML={{ __html: html }}></div>
         </div>
         <div class="flex space-x-2">
           <a href={`/knowledge/${knowledge.id}/edit`} class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
