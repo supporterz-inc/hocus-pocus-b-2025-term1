@@ -39,7 +39,7 @@ app.get('/login',async(c) => {
 });
 app.post('/login',async(c)=>{
   const { mailAddress, password, action} = await c.req.parseBody();
-  //console.log(action)
+  console.log(action)
   //console.log(mailAddress);
   //console.log(password);
   if (!mailAddress) {

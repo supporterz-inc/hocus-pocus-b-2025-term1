@@ -96,11 +96,11 @@ export const Knowledge = {
   update,
 };
 
-function usercreate(mailAddress: UserData['mailAddress'],password: UserData['password']): UserData {
+/*function usercreate(mailAddress: UserData['mailAddress'],password: UserData['password']): UserData {
   return {
     __tag: 'userdata',
     id: randomUUID(),
     mailAddress,
     password,
   };
-}
+}*/
