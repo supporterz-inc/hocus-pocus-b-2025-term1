@@ -39,6 +39,22 @@ export interface Knowledge {
   readonly updatedAt: number;
 }
 
+export interface UserData{
+  readonly __tag: 'userdata';
+  /**
+   * ユーザーの一意なID
+   */
+  readonly id: string;  
+  /**
+   * ユーザーの一意なメールアドレス 
+   */
+  readonly mailAddress: string;
+  /**
+   * ユーザーのパスワード 
+   */
+  readonly password: string;
+}
+
 /**
  * ナレッジを新規作成する
  * @param title ナレッジタイトル
@@ -79,3 +95,12 @@ export const Knowledge = {
   create,
   update,
 };
+
+function usercreate(mailAddress: UserData['mailAddress'],password: UserData['password']): UserData {
+  return {
+    __tag: 'userdata',
+    id: randomUUID(),
+    mailAddress,
+    password,
+  };
+}
