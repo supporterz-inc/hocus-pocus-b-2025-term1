@@ -3,10 +3,10 @@ import { Knowledge } from './knowledge.model.js';
 
 describe('Create Knowledge', () => {
   it('Knowledge が作成できる', () => {
-    const title = 'test title'
+    const title = 'test title';
     const content = 'This is a test content.';
     const authorId = 'test-author';
-    const knowledge = Knowledge.create(title,content, authorId);
+    const knowledge = Knowledge.create(title, content, authorId);
 
     expect(knowledge.content).toBe(content);
     expect(knowledge.authorId).toBe(authorId);
@@ -16,7 +16,7 @@ describe('Create Knowledge', () => {
 
 describe('Update Knowledge', () => {
   it('Knowledge が更新できる', () => {
-    const knowledge = Knowledge.create('test title','This is an original content', 'test-author');
+    const knowledge = Knowledge.create('test title', 'This is an original content', 'test-author');
     const content = 'This is an updated content.';
 
     setTimeout(() => {

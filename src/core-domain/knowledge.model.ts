@@ -46,9 +46,9 @@ export interface Knowledge {
  * @param authorId ナレッジの作成者の ID
  * @returns 新規作成されたナレッジ
  */
-function create(title: Knowledge['title'],content: Knowledge['content'], authorId: Knowledge['authorId']): Knowledge {
+function create(title: Knowledge['title'], content: Knowledge['content'], authorId: Knowledge['authorId']): Knowledge {
   const now = Math.floor(Date.now() / 1000);
-  
+
   return {
     __tag: 'Knowledge',
     id: randomUUID(),
