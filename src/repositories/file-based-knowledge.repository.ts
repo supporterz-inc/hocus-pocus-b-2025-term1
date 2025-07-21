@@ -1,8 +1,8 @@
-import type { KnowledgeRepository } from './knowledge.repository.js';
-import type { Knowledge } from '../core-domain/knowledge.model.js';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import type { Knowledge } from '../core-domain/knowledge.model.js';
+import type { KnowledgeRepository } from './knowledge.repository.js';
 
 const STORAGE_DIR = 'data-source';
 const KNOWLEDGE_FILE = join(STORAGE_DIR, 'knowledge.json');
@@ -12,7 +12,7 @@ export const FileBasedKnowledgeRepository: KnowledgeRepository = {
   getById: async (id) => {
     const knowledgeList = await readKnowledgeList();
     const knowledge = knowledgeList.find((k) => k.id === id);
-    if(!knowledge){
+    if (!knowledge) {
       throw new Error(`Knowledge with id ${id} not found`);
     }
     return knowledge;
@@ -28,9 +28,9 @@ export const FileBasedKnowledgeRepository: KnowledgeRepository = {
     const knowledgeList = await readKnowledgeList();
     const existingIndex = knowledgeList.findIndex((k) => k.id === knowledge.id);
 
-    if(existingIndex !== -1){
+    if (existingIndex !== -1) {
       knowledgeList[existingIndex] = knowledge;
-    }else{
+    } else {
       knowledgeList.push(knowledge);
     }
     await writeKnowledgeList(knowledgeList);
@@ -41,7 +41,7 @@ export const FileBasedKnowledgeRepository: KnowledgeRepository = {
     const knowledgeList = await readKnowledgeList();
     const filteredList = knowledgeList.filter((k) => k.id !== id);
 
-    if(filteredList.length === knowledgeList.length){
+    if (filteredList.length === knowledgeList.length) {
       throw new Error(`Knowledge with id ${id} not found`);
     }
     await writeKnowledgeList(filteredList);
