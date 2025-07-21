@@ -1,4 +1,10 @@
-export function Layout() {
+import { Child } from "hono/jsx";
+
+interface LayoutProps {
+  children?: Child;
+}
+
+export function Layout({children} : LayoutProps = {}){
   return (
     <html lang="ja">
       <head>
@@ -9,7 +15,8 @@ export function Layout() {
       </head>
 
       <body>
-        <div class="w-[375px] mx-auto">TODO: (学生向け) ベースアプリケーションのスコープを実装する</div>
+        <h1 class="w-[375px] mx-auto">Hocus Pocus</h1>
+        {children || <div class="w-[375px] mx-auto">TODO: (学生向け) ベースアプリケーションのスコープを実装する</div>}
       </body>
     </html>
   );

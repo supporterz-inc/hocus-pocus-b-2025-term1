@@ -7,6 +7,13 @@ import { trimTrailingSlash } from 'hono/trailing-slash';
 import { verifyIapJwt } from './services/jwt.service.js';
 import { Layout } from './ux-domain/Layout.js';
 
+import { CreateKnowledge } from './ux-domain/CreateKnowledge.js';
+import { KnowledgeList } from './ux-domain/KnowledgeList.js';
+import { CreateComplete } from './ux-domain/CreateComplete.js';
+
+import { Knowledge } from './core-domain/knowledge.model.js';
+import { FileBasedKnowledgeRepository } from './repositories/file-based-knowledge.repository.js';
+
 const app = new Hono();
 // biome-ignore lint/complexity/useLiteralKeys: tsc の挙動と一貫性を保つため
 const isDebug = process.env['NODE_ENV'] === 'development';
@@ -29,7 +36,48 @@ app.use('*', async (ctx, next) => {
 });
 
 app.get('/', (ctx) => {
-  return ctx.html(<Layout />);
+  return ctx.html(
+    <Layout>
+      <div class="w-[375px] mx-auto">
+        <ul>
+          <li><a href="/create">投稿を作成</a></li>
+          <li><a href="/list">一覧</a></li>
+        </ul>
+      </div>
+    </Layout>);
+});
+
+app.get('/create', (c) => {
+  return c.html(
+    <Layout>
+      <CreateKnowledge />
+    </Layout>
+  );
+});
+
+app.post('/create/submit', async (c) => {
+  const body = await c.req.parseBody();
+  const content =body['content'] as string;
+  const newKnowledge = Knowledge.create(content.trim(),'debug');
+  await FileBasedKnowledgeRepository.upsert(newKnowledge);
+  return c.redirect('/create/complete');
+});
+
+app.get('/create/complete', (c) => {
+  return c.html(
+    <Layout>
+      <CreateComplete/>
+    </Layout>
+  )
+})
+
+app.get('/list', async (c) => {
+  const knowledgeList = await FileBasedKnowledgeRepository.getAll();
+  return c.html(
+    <Layout>
+      <KnowledgeList knowledgeList={knowledgeList}></KnowledgeList>
+    </Layout>
+  );
 });
 
 const server = serve({
