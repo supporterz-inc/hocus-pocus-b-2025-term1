@@ -12,6 +12,11 @@ export interface Knowledge {
   readonly id: string;
 
   /**
+   * ナレッジの一意な ID
+   */
+  readonly title: string;
+
+  /**
    * ナレッジの作成者の ID
    */
   readonly authorId: string;
@@ -36,17 +41,18 @@ export interface Knowledge {
 
 /**
  * ナレッジを新規作成する
- *
+ * @param title ナレッジタイトル
  * @param content ナレッジの本文
  * @param authorId ナレッジの作成者の ID
  * @returns 新規作成されたナレッジ
  */
-function create(content: Knowledge['content'], authorId: Knowledge['authorId']): Knowledge {
+function create(title: Knowledge['title'],content: Knowledge['content'], authorId: Knowledge['authorId']): Knowledge {
   const now = Math.floor(Date.now() / 1000);
-
+  
   return {
     __tag: 'Knowledge',
     id: randomUUID(),
+    title,
     content,
     authorId,
     createdAt: now,
